@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Accounts')" />
+<body>
+
+	<div class="row">
+		<nav th:replace="fragments/nav :: topBar"></nav>
+		<div th:replace="fragments/nav :: leftMenu"></div>
+		<div class=" large-9 medium-8 columns" style="margin-top: 30px">
+			<div th:replace="fragments/nav :: topMessage(${message})"></div>
+			<form action="#" th:action="@{/transfers/new}"
+				th:object="${transferForm}" method="get"
+				style="margin-top: 50px;">
+				<fieldset>
+					<legend>New transfer</legend>
+
+					<!-- From account -->
+					<label for="debitAccount">From account <small>required</small></label>
+					<select th:field="*{debitAccount}">
+						<option value="0"></option>
+						<option th:each="debitAccount: ${accounts}" th:value="${debitAccount.accountNumber}"
+							th:text="${debitAccount.accountType.label + ' ' + debitAccount.accountNumber + ' - ' + debitAccount.availableBalance + ' €'}"></option>
+					</select>
+					<div th:errors="*{debitAccount}" class="fieldErrorMessage"></div>
+					
+					
+					<!-- To account -->
+					<label for="creditAccount">To account <small>required</small></label>
+					<select th:field="*{creditAccount}">
+						<option value="0"></option>
+						<option th:each="debitAccount: ${accounts}" th:value="${debitAccount.accountNumber}"
+							th:text="${debitAccount.accountType.label + ' ' + debitAccount.accountNumber + ' - ' + debitAccount.availableBalance + ' €'}"></option>
+					</select>
+					<div th:errors="*{creditAccount}" class="fieldErrorMessage"></div>
+					
+					<!-- Amount -->
+					<label for="fromAccount">Amount <small>required</small></label> <input type="text" th:field="*{amount}"></input>
+					<div th:errors="*{amount}" class="fieldErrorMessage"></div>
+						
+
+					<!-- Description -->
+					<label for="fromAccount">Description</label>
+					<textarea th:field="*{description}"></textarea>
+
+					<button class="medium button green">Submit</button>
+				</fieldset>
+			</form>
+		</div>
+
+
+		<footer th:replace="fragments/footer :: footer" />
+
+	</div>
+
+
+</body>
+</html>

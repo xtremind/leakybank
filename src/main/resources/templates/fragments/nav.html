@@ -1,0 +1,46 @@
+<div>
+	<nav class="top-bar" th:fragment="topBar">
+
+		<ul class="title-area">
+			<li class="name">
+				<h1>
+					<a href="/">Leaky Bank</a>
+				</h1>
+			</li>
+		</ul>
+
+		<section class="top-bar-section">
+			<ul class="right">
+				<li class="divider"></li>
+				<li><a href="/logout">Logout</a></li>
+			</ul>
+		</section>
+
+	</nav>
+	<div class="large-3 medium-4 columns" th:fragment="leftMenu">
+
+		<ul class="side-nav">
+			<li><h4	th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></h4></li>
+			<li th:unless="${session.user.admin}"><a href="/accounts">Accounts</a></li>
+			<li th:unless="${session.user.admin}"><a href="/transfers">Money Transfer</a></li>
+		</ul>
+	</div>
+	
+	<div class="large-3 medium-4 columns" th:fragment="leftMenuAdmin">
+
+		<ul class="side-nav">
+			<li><h4	th:text="${session.user.firstName}"></h4></li>
+			<li><a href="/admin/users">Users</a></li>
+			<li><a href="/admin/sqlConsole">SQL Console</a></li>
+		</ul>
+	</div>
+
+	<div th:fragment="topMessage (message)" th:if="${message}">
+		<div id="alertPanel" class="alert-box info"></div>
+		<script>
+			var message = '<span th:remove="tag" th:utext="${message}"/>';
+			$("#alertPanel").html(message).delay(1500).fadeOut(500);
+		</script>
+	</div>
+
+</div>

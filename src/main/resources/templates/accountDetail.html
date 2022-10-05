@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Account')" />
+<body>
+
+	<div class="row">
+		<nav th:replace="fragments/nav :: topBar"></nav>
+		<div th:replace="fragments/nav :: leftMenu"></div>
+		<div class=" large-9 medium-8 columns" style="margin-top: 30px">
+			<h2>
+				<span th:text="${account.accountType.label}"></span> <span
+					th:text="${account.accountNumber}"></span>
+			</h2>
+			<h3>
+				Available balance: <span
+					th:text="${account.availableBalance + ' €'}"></span>
+			</h3>
+			<table>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Description</th>
+				</tr>
+
+				<tr th:each="transaction : ${transactions}">
+					<td th:text="${transaction.operationDate}"></td>
+					<td th:text="${transaction.amount} + ' €'"></td>
+					<td th:utext="${transaction.description}"></td>
+				</tr>
+
+			</table>
+		</div>
+		<footer th:replace="fragments/footer :: footer" />
+	</div>
+
+
+</body>
+</html>

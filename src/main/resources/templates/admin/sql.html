@@ -1,0 +1,72 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Admin')" />
+<body>
+
+<style type="text/css" media="screen">
+
+    #sqlRequest {
+    	margin-bottom: 30px;
+        width: 100%;
+        height: 100px;
+        font-size: 1.1em;
+       	background-color: #eee;
+    }
+  </style>
+
+	<div class="row" th:if="${session.user.admin}">
+		<nav th:replace="fragments/nav :: topBar"></nav>
+		<div th:replace="fragments/nav :: leftMenuAdmin"></div>
+		<div class=" large-9 medium-8 columns" >
+			<h1>SQL Console</h1>
+			Leaky Bank tables are : <span style="font-family:'Courier New', Courier, monospace">USERS, INTERNAL_ACCOUNT_TYPES, INTERNAL_ACCOUNTS, INTERNAL_ACCOUNT_TRANSACTIONS</span>.
+			
+			
+			<form action="#" th:action="@{/admin/sqlConsole}" id="sqlForm"
+				th:object="${sqlForm}" method="POST" onsubmit="$('#sqlQueryHidden').val(editor.getValue());"
+				style="margin-top: 20px;">
+				<input type="hidden" th:field="*{sqlQuery}" id="sqlQueryHidden"/>
+				<pre id="sqlRequest" th:text="${sqlForm.sqlQuery}"></pre>
+				
+				<div th:errors="*{sqlQuery}" class="fieldErrorMessage"></div>
+				<button class="medium button green">Submit</button>
+			</form>
+			<table th:if="${sqlForm.resultSet}" th:fragment="resultTable" id="resultSet">
+				<tr>
+					<th th:each="colName : ${sqlForm.columnNames}" th:text="${colName}"/>
+				</tr>
+
+				<tr th:each="row : ${sqlForm.resultSet}">
+					<td th:each="col : ${row}" th:text="${col}"/>
+				</tr>
+			</table>
+			<script src="/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+			<script>				
+				/*<![CDATA[*/
+				           
+				// Init ACE editor
+				var editor = ace.edit("sqlRequest");
+			    editor.getSession().setMode("ace/mode/sql");
+			    editor.setTheme("ace/theme/eclipse");
+			    editor.setHighlightActiveLine(false);
+			    editor.setShowPrintMargin(false);
+			    editor.renderer.setShowGutter(false);
+
+			    
+			    // Submit form on Ctrl-Enter
+			    editor.commands.addCommand({
+			    	name: 'submit',
+			    	bindKey: {win: 'Ctrl-Enter', mac: 'Command-Enter'},
+			    	exec: function(editor) {
+			    		$("#sqlForm").submit();
+			    	}
+			    });
+		
+				/*]]>*/
+			</script>
+		</div>
+		<footer th:replace="fragments/footer :: footer" />
+	</div>
+
+
+</body>
+</html>

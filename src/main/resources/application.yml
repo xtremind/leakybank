@@ -1,0 +1,8 @@
+spring:
+ thymeleaf:
+  cache: false
+ 
+ datasource: 
+  plateform: hsqldb
+ 
+logging.level.org.springframework.jdbc.core.JdbcTemplate: DEBUG

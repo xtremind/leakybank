@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Admin')" />
+<body>
+
+	<div class="row" th:if="${session.user.admin}">
+		<nav th:replace="fragments/nav :: topBar"></nav>
+		<div th:replace="fragments/nav :: leftMenuAdmin"></div>
+		<div class=" large-9 medium-8 columns" style="margin-top: 30px">
+			<h1>Users</h1>
+			<table th:fragment="usersTable" id="usersTable">
+				<tr>
+					<th>Login</th>
+					<th>Fist Name</th>
+					<th>Last name</th>
+					<th></th>
+				</tr>
+
+				<tr th:each="user : ${users}">
+					<td th:text="${user.login}"></td>
+					<td th:text="${user.firstName}"></td>
+					<td th:text="${user.lastName}"></td>
+					<td><a th:onclick="'deleteUser(\'' + ${user.login} + '\')'">Delete</a></td>
+				</tr>
+	
+			</table>
+			<script>
+				function deleteUser(userLogin) {
+					if (confirm('Are you sure you want to delete this user ?')) {
+						$.ajax({
+							url: '/admin/users/' + userLogin + '/delete',
+							type: 'GET',
+							success: function(data) {
+								$("#usersTable").html(data);
+							}
+						});
+					}
+				}
+			</script>
+		</div>
+		<footer th:replace="fragments/footer :: footer" />
+	</div>
+
+
+</body>
+</html>

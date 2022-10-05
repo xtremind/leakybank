@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Accounts')" />
+<body>
+
+	<div class="row">
+		<nav th:replace="fragments/nav :: topBar"></nav>
+		<div th:replace="fragments/nav :: leftMenu"></div>
+		<div class=" large-9 medium-8 columns" style="margin-top:30px">
+			<div th:replace="fragments/nav :: topMessage(${message})"></div>
+			<h1>Accounts</h1>
+			<h3>Total available balance: <span th:text="${totalAvailableBalance} + ' €'"></span></h3>
+			<table>
+				<tr>
+					<th>Account Number</th>
+					<th>Account Type</th>
+					<th>Available Balance</th>
+				</tr>
+
+				<tr th:each="account : ${internalAccounts}">
+					<td><a th:href="'/accounts/' + ${account.accountNumber}" th:text="${account.accountNumber}"></a></td>
+					<td th:text="${account.accountType.label}"></td>
+					<td th:text="${account.availableBalance} + ' €'"></td>
+				</tr>
+	
+			</table>
+		</div>
+		
+		<footer th:replace="fragments/footer :: footer" />
+
+	</div>
+
+	
+</body>
+</html>

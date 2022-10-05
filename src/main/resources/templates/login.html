@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header('Welcome')" />
+<body>
+	<div class="row">
+		<div class="large-8 small-8 small-centered large-centered columns"
+			style="margin-top: 100px;">
+			<h1>
+				<img src="img/logo.svg" height="200px"/>
+				Welcome to <b>Leaky Bank</b>
+			</h1>
+			<div th:replace="fragments/nav :: topMessage(${message})"></div>
+
+			<form action="#" th:action="@{/login}" th:object="${loginForm}"
+				method="post" style="margin-top: 50px;">
+
+				<fieldset>
+					<legend>Please login</legend>
+					
+					<input name="targetUrl" type="hidden" th:value="${param.targetUrl[0]}" th:if="${param.targetUrl}"></input>
+					<input th:field="*{targetUrl}" type="hidden" th:unless="${param.targetUrl}"></input>
+
+					<div th:each="e : ${#fields.detailedErrors()}"
+						class="fieldErrorMessage">
+						<span th:if="${e.global}" th:text="${e.message}">The field
+							name</span>
+					</div>
+
+					<!-- Login -->
+					<label for="login">Login <small>required</small></label> <input
+						type="text" th:field="*{login}" />
+					<div th:errors="*{login}" class="fieldErrorMessage"></div>
+
+					<!-- Password -->
+					<label for="password">Password <small>required</small></label> <input
+						type="password" th:field="*{password}" />
+					<div th:errors="*{password}" class="fieldErrorMessage"></div>
+
+					<button class="medium button green">Submit</button>
+				</fieldset>
+			</form>
+			<div class="disclaimer"> <b>WARNING: </b> While running this program, your
+				machine is vulnerable to attack if you are not running on
+				localhost. If you are NOT running on localhost (default
+				configuration), You should disconnect from the network while using
+				this program. 
+				<p/>This program is for educational purposes only. Use
+				of these techniques without permission could lead to job
+				termination, financial liability, and/or criminal penalties.
+			</div>
+		</div>
+		<footer th:replace="fragments/footer :: footer" />
+	</div>
+
+</body>
+</html>
