@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  *
  */
 @Component
-public class AuthenticatedInterceptor extends HandlerInterceptorAdapter {
+public class AuthenticatedInterceptor implements HandlerInterceptor {
 	
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticatedInterceptor.class);
@@ -24,6 +25,7 @@ public class AuthenticatedInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private UserSession userSession;
 
+	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		
