@@ -12,14 +12,14 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Redirect unauthenticated users to the login page
- * 
+ *
  * @author chouippea
  *
  */
 @Component
 public class AuthenticatedInterceptor implements HandlerInterceptor {
-	
-	
+
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticatedInterceptor.class);
 
 	@Autowired
@@ -28,12 +28,13 @@ public class AuthenticatedInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		
+
 		LOGGER.debug("Url: {}", request.getRequestURI());
-		
+
 		if (!userSession.isAuthenticated()) {
 			// Force redirection to /login if user is not authenticated
-			if (request.getRequestURI().startsWith("/login") || request.getRequestURI().startsWith("/error")) {
+			if (request.getRequestURI().startsWith("/login") || request.getRequestURI().startsWith("/error") ||
+					request.getRequestURI().contains("/js") || request.getRequestURI().contains("/css") || request.getRequestURI().contains("/img")  ) {
 				return true;
 			} else {
 				if (!"/".equals(request.getRequestURI())) {
@@ -41,7 +42,7 @@ public class AuthenticatedInterceptor implements HandlerInterceptor {
 				} else {
 					response.sendRedirect("/login");
 				}
-				
+
 				return false;
 			}
 		}
