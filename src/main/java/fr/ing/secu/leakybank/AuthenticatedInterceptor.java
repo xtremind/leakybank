@@ -7,31 +7,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Redirect unauthenticated users to the login page
- * 
+ *
  * @author chouippea
  *
  */
 @Component
-public class AuthenticatedInterceptor extends HandlerInterceptorAdapter {
-	
-	
+public class AuthenticatedInterceptor implements HandlerInterceptor {
+
+
 	private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticatedInterceptor.class);
 
 	@Autowired
 	private UserSession userSession;
 
+	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		
+
 		LOGGER.debug("Url: {}", request.getRequestURI());
-		
+
 		if (!userSession.isAuthenticated()) {
 			// Force redirection to /login if user is not authenticated
-			if (request.getRequestURI().startsWith("/login") || request.getRequestURI().startsWith("/error")) {
+			if (request.getRequestURI().startsWith("/login") || request.getRequestURI().startsWith("/error") ||
+					request.getRequestURI().contains("/js") || request.getRequestURI().contains("/css") || request.getRequestURI().contains("/img")  ) {
 				return true;
 			} else {
 				if (!"/".equals(request.getRequestURI())) {
@@ -39,7 +42,7 @@ public class AuthenticatedInterceptor extends HandlerInterceptorAdapter {
 				} else {
 					response.sendRedirect("/login");
 				}
-				
+
 				return false;
 			}
 		}
