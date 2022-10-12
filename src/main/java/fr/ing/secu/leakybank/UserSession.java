@@ -1,12 +1,12 @@
 package fr.ing.secu.leakybank;
 
-import fr.ing.secu.leakybank.model.User;
+import fr.ing.secu.leakybank.application.pages.login.UserDTO;
 
 public class UserSession {
 	
 	private boolean isAuthenticated = false;
 	
-	private User user;
+	private UserDTO user;
 
 	public boolean isAuthenticated() {
 		return isAuthenticated;
@@ -16,11 +16,11 @@ public class UserSession {
 		this.isAuthenticated = isAuthenticated;
 	}
 
-	public User getUser() {
+	public UserDTO getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserDTO user) {
 		this.user = user;
 	}
 

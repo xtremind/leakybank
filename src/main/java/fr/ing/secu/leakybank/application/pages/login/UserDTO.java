@@ -1,6 +1,9 @@
-package fr.ing.secu.leakybank.model;
+package fr.ing.secu.leakybank.application.pages.login;
 
-public class User {
+import lombok.Data;
+
+@Data
+public class UserDTO {
 	
 	private String login;
 	
@@ -10,7 +13,7 @@ public class User {
 	
 	private boolean isAdmin;
 	
-	public User(String login, String firstName, String lastName, boolean isAdmin) {
+	public UserDTO(String login, String firstName, String lastName, boolean isAdmin) {
 		this.login = login;
 		this.firstName = firstName;
 		this.lastName = lastName;

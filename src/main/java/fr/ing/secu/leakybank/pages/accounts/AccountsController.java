@@ -58,7 +58,7 @@ public class AccountsController extends BaseController {
 	@RequestMapping(value = "/{accountNumber}", method = RequestMethod.GET)
 	public ModelAndView accountDetail(@PathVariable int accountNumber) {
 			
-		return accountsDao.findInternalAccountByAccountNumber(accountNumber).map(account ->
+		return accountsDao.findInternalAccountByAccountNumber(accountNumber).map(account -> 
 			new ModelAndView("accountDetail")
 				.addObject("account", account)
 				.addObject("user", userSession.getUser())

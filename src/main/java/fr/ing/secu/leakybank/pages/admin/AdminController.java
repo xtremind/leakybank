@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.ing.secu.leakybank.UserSession;
-import fr.ing.secu.leakybank.dao.UsersDAO;
+import fr.ing.secu.leakybank.infrastructure.user.repository.db.UsersDAO;
 import fr.ing.secu.leakybank.pages.BaseController;
 import fr.ing.secu.leakybank.pages.admin.sql.SQLConsoleForm;
 

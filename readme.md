@@ -32,7 +32,7 @@ Then, *Leaky bank* is running under http://localhost:8080.
 - login: bob,
 - password: bobP@ssw
 
-### Admin user:
+### Admin userDTO:
 
 - login: admin
 - password : adminP@ssw
@@ -74,7 +74,7 @@ password: any value
 #### update password of one users :
 login: 
 
-	alice'; update USERS set password='qwerty' where user='bob'--
+	alice'; update USERS set password='qwerty' where userDTO='bob'--
 
 password: any value
 
@@ -95,7 +95,7 @@ password: any value
 #### update password of one users :
 login:
 
-	alice'; update USERS set password='qwerty' where user='bob'--
+	alice'; update USERS set password='qwerty' where userDTO='bob'--
 
 password: any value
 
@@ -165,7 +165,7 @@ Accounts number is directly passed in the url of account details pages : http://
 
 Reference: https://www.owasp.org/index.php/Top_10_2013-A7-Missing_Function_Level_Access_Control
 
-User deletion feature does not check that user is an administrator: 
+User deletion feature does not check that userDTO is an administrator: 
 
 	GET http://localhost:8080/admin/users/<login>/delete
 
@@ -186,11 +186,11 @@ Example: Create an html page with img tag with the following url:
 
 Reference: https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards
 
-When user tries to consult a page that requires authentication, it automatically redirected to the login page. After authentication, it is then redirected to the initial requested page. This mechanism uses an optional parameter "targetUrl", in the login page url: 
+When userDTO tries to consult a page that requires authentication, it automatically redirected to the login page. After authentication, it is then redirected to the initial requested page. This mechanism uses an optional parameter "targetUrl", in the login page url: 
 
 	http://localhost:8080/login?targetUrl=/accounts/100124
 	
-This parameter is not sanitized, so it is possible to redirect the user to an other domain after login : 
+This parameter is not sanitized, so it is possible to redirect the userDTO to an other domain after login : 
 
 	http://localhost:8080/login?targetUrl=https://www.owasp.org/index.php/Top_10_2013-A10-Unvalidated_Redirects_and_Forwards
 	

@@ -1,4 +1,4 @@
-package fr.ing.secu.leakybank.pages.login;
+package fr.ing.secu.leakybank.application.pages.login;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
