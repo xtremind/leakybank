@@ -3,6 +3,7 @@ package fr.ing.secu.leakybank.pages.accounts;
 import java.math.BigDecimal;
 import java.util.List;
 
+import fr.ing.secu.leakybank.domain.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.ing.secu.leakybank.UserSession;
 import fr.ing.secu.leakybank.dao.AccountsDAO;
-import fr.ing.secu.leakybank.dao.TransactionsDAO;
+import fr.ing.secu.leakybank.infrastructure.transaction.repository.db.TransactionsDAO;
 import fr.ing.secu.leakybank.model.InternalAccount;
 import fr.ing.secu.leakybank.pages.BaseController;
 
@@ -33,7 +34,7 @@ public class AccountsController extends BaseController {
 	private AccountsDAO accountsDao;
 
 	@Autowired
-	private TransactionsDAO transactionsDao;
+	private TransactionsService transactionsService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView accountList() {
@@ -62,7 +63,7 @@ public class AccountsController extends BaseController {
 			new ModelAndView("accountDetail")
 				.addObject("account", account)
 				.addObject("user", userSession.getUser())
-				.addObject("transactions", transactionsDao.findTransactionsByAccountNumber(accountNumber))
+				.addObject("transactions", transactionsService.findTransactionsByAccountNumber(accountNumber))
 			).orElse(new ModelAndView("redirect:/accounts"));
 		
 	}

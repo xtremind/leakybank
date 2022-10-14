@@ -1,13 +1,13 @@
-package fr.ing.secu.leakybank.dao;
+package fr.ing.secu.leakybank.infrastructure.transaction.repository.db;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import fr.ing.secu.leakybank.application.pages.transfer.TransactionDTO;
+import fr.ing.secu.leakybank.infrastructure.transaction.entity.TransactionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import fr.ing.secu.leakybank.model.Transaction;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public class TransactionsDAO {
@@ -20,9 +20,9 @@ public class TransactionsDAO {
 	 * @param accountNumber
 	 * @return
 	 */
-	public List<Transaction> findTransactionsByAccountNumber(int accountNumber) {
+	public List<TransactionEntity> findTransactionsByAccountNumber(int accountNumber) {
 		return jdbcTemplate.query("select * from INTERNAL_ACCOUNT_TRANSACTIONS where account_number=" + accountNumber + " order by OPERATION_DATE desc, ID DESC", 
-				(rs, rowNum) -> new Transaction(rs.getInt("ID"), rs.getInt("ACCOUNT_NUMBER"), rs.getBigDecimal("AMOUNT"), rs.getString("DESCRIPTION"), rs.getDate("OPERATION_DATE")));
+				(rs, rowNum) -> new TransactionEntity(rs.getInt("ID"), rs.getInt("ACCOUNT_NUMBER"), rs.getBigDecimal("AMOUNT"), rs.getString("DESCRIPTION"), rs.getDate("OPERATION_DATE")));
 	}
 	
 	

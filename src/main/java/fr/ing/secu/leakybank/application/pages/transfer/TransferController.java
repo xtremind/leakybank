@@ -1,9 +1,12 @@
-package fr.ing.secu.leakybank.pages.transfer;
+package fr.ing.secu.leakybank.application.pages.transfer;
 
 import java.math.BigDecimal;
 
 import javax.validation.Valid;
 
+import fr.ing.secu.leakybank.application.pages.login.mapper.UserMapper;
+import fr.ing.secu.leakybank.application.pages.transfer.mapper.TransferMapper;
+import fr.ing.secu.leakybank.domain.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import fr.ing.secu.leakybank.UserSession;
 import fr.ing.secu.leakybank.dao.AccountsDAO;
-import fr.ing.secu.leakybank.dao.TransactionsDAO;
+import fr.ing.secu.leakybank.infrastructure.transaction.repository.db.TransactionsDAO;
 import fr.ing.secu.leakybank.pages.BaseController;
 
 @Controller
@@ -26,9 +29,9 @@ public class TransferController extends BaseController {
 
 	@Autowired
 	private AccountsDAO accountsDOA;
-	
+
 	@Autowired
-	private TransactionsDAO transactionDAO;
+	private TransactionsService transactionsService;
 
 	/**
 	 * Display the money transfer page
@@ -53,9 +56,9 @@ public class TransferController extends BaseController {
 		if (transferForm.getAmount() != null && transferForm.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
 			result.rejectValue("amount", "amount.negativeValue", "Please enter a positive amount.");
 		}
-		
+
 		// Checks that debit & credit accounts are not the same
-		if (transferForm.getCreditAccount() != 0 & transferForm.getDebitAccount() != 0 && transferForm.getCreditAccount() == transferForm.getDebitAccount()) {
+		if (transferForm.getCreditAccount() != 0 && transferForm.getDebitAccount() != 0 && transferForm.getCreditAccount() == transferForm.getDebitAccount()) {
 			result.rejectValue("creditAccount", "creditAccount.debitAccount", "Please select distinct debit and credit accounts.");
 		}
 		
@@ -65,12 +68,12 @@ public class TransferController extends BaseController {
 		} 
 		// Else, persist the money transfer in database
 		else {
-			transactionDAO.processMoneyTransfer(transferForm.getDebitAccount(), transferForm.getCreditAccount(), transferForm.getAmount(), transferForm.getDescription());
+			transactionsService.transfer(TransferMapper.INSTANCE.toDomain(transferForm));
 			return "redirect:/accounts?message=Money transfer succeeded.";
 		}
 
 
-	};
+	}
 
 	/**
 	 * Fill fields
